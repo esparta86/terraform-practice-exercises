@@ -7,5 +7,5 @@ variable "instance_name" {
 variable "instance_ami" {
   description = "Value of the ami EC2"
   type = string
-  default = "ami-0ab4d1e9cf9a1215a"
+  default = "ami-0e472ba40eb589f49"
 }

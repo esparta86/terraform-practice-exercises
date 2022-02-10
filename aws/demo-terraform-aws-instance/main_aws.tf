@@ -18,6 +18,15 @@ resource "aws_instance" "app_server" {
   ami           = var.instance_ami
   instance_type = "t2.micro"
 
+  # user_data = <<-EOL
+  # #!/bin/bash -xe
+  # apt-get update && apt-get install -y nginx
+  # echo "NGINX INSTALLED"
+
+  # EOL
+
+  user_data = "${file("setup-nginx.sh")}"
+
   tags = {
     Name = var.instance_name
   }
