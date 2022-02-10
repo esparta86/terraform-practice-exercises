@@ -18,12 +18,15 @@ provider "aws" {
 resource "aws_vpc" "development_vpc" {
   cidr_block = var.development_vpc_cidr
   instance_tenancy = "default"  
+  tags = merge(var.default_tags,var.vpc_tags)
 }
+
 
 #Create Internet Gateway and attach VPC
 
 resource "aws_internet_gateway" "IGW_development" {
   vpc_id = aws_vpc.development_vpc.id  # vpc id will take the value of vpc id when is created
+  tags = merge(var.default_tags,var.igw_tags)
 }
 
 
@@ -32,6 +35,7 @@ resource "aws_internet_gateway" "IGW_development" {
 resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.development_vpc.id
   cidr_block = var.develop_private_subnet_cidr
+  tags = merge(var.default_tags,var.public_subnet_tags)
 }
 
 #Create a public subnet
@@ -39,6 +43,7 @@ resource "aws_subnet" "public_subnet" {
 resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.development_vpc.id
   cidr_block = var.develop_public_subnet_cidr
+  tags = merge(var.default_tags,var.private_subnet_tags)
 }
 
 #Route table for public subnets
@@ -49,6 +54,10 @@ resource "aws_route_table" "publicRT" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.IGW_development.id
   }
+
+  tags = merge(var.default_tags,{
+     "Name" = "publicRT"
+  })
 }
 
 
@@ -60,6 +69,10 @@ resource "aws_route_table" "privateRT" {
     cidr_block = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.natGW.id
   }
+
+  tags = merge(var.default_tags,{
+    "Name" = "privateRT"
+  })
   
 }
 
@@ -73,12 +86,18 @@ resource "aws_route_table_association" "publicRTassociation" {
 
 resource "aws_route_table_association" "privateRTassociation" {
   subnet_id = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.publicRT.id
+  route_table_id = aws_route_table.privateRT.id
+
 }
 
 
+#Creating Elastic IP addresses
+
 resource "aws_eip" "natIP" {
   vpc = true 
+  tags = merge(var.default_tags,{
+    "Name" = "elasticIPNatGW"
+  })
 }
 
 #Creating the NAT gateway using the subnet id and allocation id
@@ -86,6 +105,14 @@ resource "aws_eip" "natIP" {
 resource "aws_nat_gateway" "natGW" {
   allocation_id = aws_eip.natIP.id
   subnet_id = aws_subnet.public_subnet.id
+  
+  tags = merge(var.default_tags,{
+    "Name" = "natGateway"
+  })
+
+  depends_on = [
+    aws_eip.natIP
+  ]
 }
 
 

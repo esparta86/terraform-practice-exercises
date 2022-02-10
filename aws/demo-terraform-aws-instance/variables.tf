@@ -27,3 +27,50 @@ variable "develop_private_subnet_cidr" {
   type = string
   default = "10.0.0.64/26"
 }
+
+
+
+variable "default_tags" {
+  default = {
+    cloudprovider = "aws"
+    owner = "lisandro-devops"
+  }
+
+  description = "Default resource tags"
+  type = map(string)
+
+}
+
+
+variable "vpc_tags" {
+  description = "vpc name"
+  type = map(string)
+  default = {
+    Name = "development_pvc"
+  }
+}
+
+
+variable "igw_tags" {
+  description = "tags igw_name"
+  type = map(string)
+  default = {
+    "Name" = "IGW_development"
+  }
+}
+
+variable "public_subnet_tags" {
+  description = "tags for public subnet"
+  type = map(string)
+  default = {
+    "Name" = "public_subnet"
+  }
+}
+
+variable "private_subnet_tags" {
+  description = "tags for private subnet"
+  type = map(string)
+  default = {
+    "Name" = "private_subnet"
+  }
+}
