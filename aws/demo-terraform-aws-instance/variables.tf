@@ -81,4 +81,6 @@ variable "private_subnet_tags" {
   default = {
     "Name" = "private_subnet"
   }
+
 }
+
