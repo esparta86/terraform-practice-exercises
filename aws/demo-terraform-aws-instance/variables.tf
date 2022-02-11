@@ -1,8 +1,16 @@
 variable "instance_name" {
   description = "Value of the Name tag for the EC2 instance"
   type = string
-  default = "ExampleAppServerInstance"
+  default = "nginx-server01"
 }
+
+
+variable "instance_name02" {
+  description = "Value of the Name tag for the EC2 instance"
+  type = string
+  default = "nginx-server02"
+}
+
 
 variable "instance_ami" {
   description = "Value of the ami EC2"

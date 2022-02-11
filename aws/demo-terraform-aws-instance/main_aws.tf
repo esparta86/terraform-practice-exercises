@@ -116,20 +116,131 @@ resource "aws_nat_gateway" "natGW" {
 }
 
 
-# resource "aws_instance" "app_server" {
-#   ami           = var.instance_ami
-#   instance_type = "t2.micro"
 
-#   # user_data = <<-EOL
-#   # #!/bin/bash -xe
-#   # apt-get update && apt-get install -y nginx
-#   # echo "NGINX INSTALLED"
 
-#   # EOL
+
+resource "aws_instance" "app_server" {
+  ami           = var.instance_ami
+  instance_type = "t2.medium"
+
+  # user_data = <<-EOL
+  # #!/bin/bash -xe
+  # apt-get update && apt-get install -y nginx
+  # echo "NGINX INSTALLED"
+  depends_on = [
+    aws_security_group.security_group
+  ]
+  vpc_security_group_ids = [ aws_security_group.security_group.id ]
+
+
+  # EOL
+  subnet_id = aws_subnet.public_subnet.id
+  user_data = "${file("setup-nginx.sh")}"
+
+  tags = merge(var.default_tags,{
+    Name = var.instance_name
+  })
+
+  key_name = "ubuntu"
+
+}
+
+#Creating Elastic IP addresses
+
+resource "aws_eip" "publicIPServer01" {
+  vpc = true
+
+  instance = aws_instance.app_server.id
+  tags = merge(var.default_tags,{
+    "Name" = "publicIPServer01"
+  })
+
+}
+
+
+# resource "aws_instance" "app_server_private" {
+#   ami = var.instance_ami
+#   instance_type = "t2.medium"
+
 
 #   user_data = "${file("setup-nginx.sh")}"
 
-#   tags = {
-#     Name = var.instance_name
-#   }
+#   subnet_id = aws_subnet.private_subnet.id
+#   tags = merge(var.default_tags,{
+#     Name = var.instance_name02
+#   })
+
 # }
+
+
+
+#Creating Elastic IP addresses
+
+# resource "aws_eip" "publicIPServer02" {
+#   vpc = true
+#   instance = aws_instance.app_server_private.id
+#   tags = merge(var.default_tags,{
+#     "Name" = "publicIPServer02"
+#   })
+
+# }
+
+
+
+#Creating security group
+resource "aws_security_group" "security_group" {
+
+  depends_on = [
+    aws_vpc.development_vpc
+  ]
+
+  name =  "security_group_development_pvc"
+  vpc_id = aws_vpc.development_vpc.id
+
+  ingress {
+    description = "ICMP"
+    from_port = 8
+    to_port = 0
+    protocol = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "http"
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  ingress {
+    description = "ssh"
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+tags = var.default_tags
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
