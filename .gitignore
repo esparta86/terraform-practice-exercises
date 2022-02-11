@@ -1,9 +1,12 @@
 **/aws/demo-terraform-aws-instance/.terraform/*
 aws/demo-terraform-aws-instance/.terraform/
-
+demo-terraform-aws-instance/.terraform/*
 *.tfstate
 *.tfstate.*git st
 
+*.terraform.lock.hcl
+.terraform.tfstate.*
+terraform.tfstate.*
 
 *.log
 

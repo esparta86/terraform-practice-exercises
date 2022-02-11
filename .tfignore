@@ -1,8 +1,9 @@
 **/aws/demo-terraform-aws-instance/.terraform/*
-aws/demo-terraform-aws-instance/.terraform/
-aws/demo-terraform-aws-instance/.terraform/providers/registry.terraform.io/hashicorp/aws/3.74.1/windows_386/terraform-provider-aws_v3.74.1_x5.exe
-*.tfstate
-*.tfstate.*
+
+**/aws/demo-terraform-aws-instance/.terraform/*
+
+.terraform.tfstate.*
+terraform.tfstate.*
 
 
 *.log
