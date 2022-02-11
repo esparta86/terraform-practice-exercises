@@ -226,13 +226,14 @@ resource "aws_security_group" "security_group" {
   name =  "security_group_development_pvc"
   vpc_id = aws_vpc.development_vpc.id
 
-  ingress {
-    description = "ICMP"
-    from_port = 8
-    to_port = 0
-    protocol = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  #Best practice, not enable it
+  # ingress {
+  #   description = "ICMP"
+  #   from_port = 8
+  #   to_port = 0
+  #   protocol = "icmp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 
   ingress {
     description = "http"
