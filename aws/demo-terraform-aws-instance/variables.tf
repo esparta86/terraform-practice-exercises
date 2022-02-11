@@ -8,7 +8,7 @@ variable "instance_name" {
 variable "instance_name02" {
   description = "Value of the Name tag for the EC2 instance"
   type = string
-  default = "nginx-server02"
+  default = "mysql-server01"
 }
 
 

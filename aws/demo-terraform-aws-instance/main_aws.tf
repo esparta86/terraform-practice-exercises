@@ -178,19 +178,27 @@ resource "aws_eip" "publicIPServer01" {
 }
 
 
-# resource "aws_instance" "app_server_private" {
-#   ami = var.instance_ami
-#   instance_type = "t2.medium"
+resource "aws_instance" "app_server_private" {
+  ami = var.instance_ami
+  instance_type = "t2.medium"
 
+   depends_on = [
+    aws_security_group.sg_mysql
+  ]
 
-#   user_data = "${file("setup-nginx.sh")}"
+  vpc_security_group_ids = [ aws_security_group.sg_mysql.id]
 
-#   subnet_id = aws_subnet.private_subnet.id
-#   tags = merge(var.default_tags,{
-#     Name = var.instance_name02
-#   })
+  user_data = "${file("setup-mysql.sh")}"
 
-# }
+  subnet_id = aws_subnet.private_subnet.id
+  tags = merge(var.default_tags,{
+    Name = var.instance_name02
+    purpose = "mysqldatabase"
+  })
+
+  key_name = "ubuntu"
+
+}
 
 
 
@@ -207,7 +215,7 @@ resource "aws_eip" "publicIPServer01" {
 
 
 
-#Creating security group
+#Creating security group for NGINX server
 resource "aws_security_group" "security_group" {
 
   depends_on = [
@@ -251,6 +259,43 @@ resource "aws_security_group" "security_group" {
 
 tags = var.default_tags
   
+}
+
+#Creating security group for MYSQL server
+
+resource "aws_security_group" "sg_mysql" {
+  depends_on = [
+    aws_vpc.development_vpc
+  ]
+
+  name = "sg for mysql EC2"
+  description = "Allow mysql inbound traffic"
+
+  vpc_id = aws_vpc.development_vpc.id
+
+
+  ingress {
+    description = "allow TCP"
+    from_port = 3306
+    to_port = 3306
+    protocol = "tcp"
+    security_groups = [aws_security_group.security_group.id]
+  }
+
+  ingress {
+    description = "allow SSH"
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    security_groups = [aws_security_group.security_group.id]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
 }
 
 
