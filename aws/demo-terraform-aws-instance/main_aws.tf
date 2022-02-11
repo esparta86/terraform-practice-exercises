@@ -14,6 +14,7 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+
 #Create VPC
 # check variablees.tf 
 # @default_tags contains default tags to inject into resources
@@ -297,15 +298,4 @@ resource "aws_security_group" "sg_mysql" {
     cidr_blocks = [ "0.0.0.0/0" ]
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 

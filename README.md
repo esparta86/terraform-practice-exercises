@@ -1,2 +1,3 @@
-# terraform-practice-exercises
-still learning terraform with aws and gcp
+# Terraform-practice-exercises
+Examples about how to use Terraform with GCP and AWS
+using the best practices.

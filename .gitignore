@@ -7,6 +7,7 @@ demo-terraform-aws-instance/.terraform/*
 *.terraform.lock.hcl
 .terraform.tfstate.*
 terraform.tfstate.*
+
 *.log
 
 
