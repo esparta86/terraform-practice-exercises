@@ -1,3 +1,11 @@
+
+variable "aws_region" {
+  description = "value of name of region"
+  type = string
+  default = "us-east-1" 
+}
+
+
 variable "instance_name" {
   description = "Value of the Name tag for the EC2 instance"
   type = string
@@ -84,3 +92,45 @@ variable "private_subnet_tags" {
 
 }
 
+
+
+
+
+variable "subnets_vpc" {
+  description = "Map of subnets to create in the region"
+  type = map
+  default = {
+
+    "subnet1" = {       
+      zone = "us-east-1a"
+      cidr = "10.0.1.0/26"     
+    }
+
+    "subnet2" = {
+      zone = "us-east-1b"
+      cidr = "10.0.1.64/26"
+    }
+
+    "subnet3" = {
+      zone = "us-east-1c"
+      cidr = "10.0.1.128/26"
+    }
+
+    
+    "subnet4" = {
+      zone = "us-east-1d"
+      cidr = "10.0.1.192/26"
+    }
+
+    "subnet5" = {
+      zone = "us-east-1e"
+      cidr = "10.0.2.0/26"
+    }
+
+    "subnet6" = {
+      zone = "us-east-1f"
+      cidr = "10.0.2.64/26"
+    }
+
+  }
+}
