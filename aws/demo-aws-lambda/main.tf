@@ -62,11 +62,15 @@ resource "aws_iam_role_policy_attachment" "policy_attach" {
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
+# It generates an archive from content, a file or directory of files
 data "archive_file" "default" {
   type = "zip"
   source_dir = "${path.module}/files/"
   output_path = "${path.module}/myzip/python.zip"
 }
+
+#Create a lambda function
+# In terraform ${path.module} is the current directory.
 
 resource "aws_lambda_function" "lambdafunc" {
   filename = "${path.module}/myzip/python.zip"
