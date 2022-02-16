@@ -145,6 +145,9 @@ variable "subnets_vpc" {
 
 variable "azs" {
   description = "The availability zones to spread nodes in"
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  type        = list(string)
+  default = [
+    "us-east-1a",
+    "us-east-1b",
+  "us-east-1c"]
+  type = list(string)
 }
