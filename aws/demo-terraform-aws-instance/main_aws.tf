@@ -55,7 +55,7 @@ resource "aws_instance" "app_server_private" {
 
   vpc_security_group_ids = [aws_security_group.sg_mysql.id]
 
-  user_data = file("setup-mysql.sh")
+  user_data = file("${path.module}/user-data/setup-mysql.sh")
 
   subnet_id = aws_subnet.private_subnet.id
   tags = merge(var.default_tags, {
@@ -66,11 +66,6 @@ resource "aws_instance" "app_server_private" {
   key_name = "ubuntu"
 
 }
-
-
-
-
-
 
 
 # Creating one NGINX server per subnet
@@ -92,7 +87,9 @@ resource "aws_instance" "app_server_nginx" {
 
   vpc_security_group_ids = [aws_security_group.security_group.id]
   subnet_id              = element(aws_subnet.public_subnet.*.id, count.index)
-  user_data              = file("setup-nginx.sh")
+  user_data              = file("${path.module}/user-data/setup-nginx.sh")
+
+  
   tags = merge(var.default_tags, {
     Name = "${var.instance_name_nginx}-${count.index}"
   })
