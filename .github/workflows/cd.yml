@@ -7,7 +7,7 @@ on:
       - lambda-dev
 
 env:
-  AWS_REGION: eu-east1
+  AWS_REGION: us-east-1
 
 jobs:
   build:
