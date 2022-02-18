@@ -1,0 +1,21 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - lambda-prod
+      - lambda-dev
+
+env:
+  AWS_REGION: eu-east1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+
+    steps:
+    - name: Clone
+      uses: action/checkout@v2
+
+    
