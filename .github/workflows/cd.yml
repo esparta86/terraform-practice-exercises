@@ -34,7 +34,7 @@ jobs:
     
     - name: Publish on prod
       if: github.ref=='refs/heads/lambda-prod'
-      run: sh /aws/lambda-tf-githubaction/publish.sh prod
+      run: sh aws/lambda-tf-githubaction/publish.sh prod
 
 
 
