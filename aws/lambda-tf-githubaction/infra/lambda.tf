@@ -28,3 +28,30 @@ resource "aws_lambda_alias" "alias_prod" {
     function_version = "$LATEST"
   
 }
+
+
+resource "aws_lambda_permission" "lambda_permission" {
+   statement_id = "AllowAPIGatewayInvoke"
+   action = "lambda:InvokeFunction"
+
+   function_name = aws_lambda_function.hello.function_name
+   principal = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/*"
+
+  
+}
+
+
+resource "aws_lambda_permission" "permission_prod" {
+    statement_id = "AllowAPIGatewayInvoke"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.hello.function_name}:prod"
+    principal = "apigateway.amazonaws.com"
+  
+  source_arn = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/GET/hello"
+}
+
+resource "aws_cloudwatch_log_group" "convert_log_group" {
+   name = "/aws/lambda/${aws_lambda_function.hello.function_name}"
+}
