@@ -24,6 +24,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{env.AWS_REGION}}
 
+    - name: Define variables
+      run: |
+        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+    
+    - name: Publish on prod
+      if: github.ref=='refs/heads/lambda-prod'
+      run: ./publish.sh prod
+
 
 
     
