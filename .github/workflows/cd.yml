@@ -28,6 +28,9 @@ jobs:
       run: |
         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+    - name: set permission on our script
+      run: chmod +x aws/lambda-tf-githubaction/publish.sh
     
     - name: Publish on prod
       if: github.ref=='refs/heads/lambda-prod'
