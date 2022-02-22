@@ -35,9 +35,14 @@ aws lambda delete-alias \
     --region $AWS_REGION \
     2>/dev/null
 
+sleep 10
+
 echo zip hello.js
 
 cd lambda/
+
+ls -l 
+
 rm --force hello.zip
 zip hello.zip hello.js
 
@@ -49,7 +54,9 @@ aws lambda update-function-code \
     --zip-file fileb://hello.zip \
     --region $AWS_REGION
 
+sleep 10
 echo aws lambda update-function-code $PROJECT_NAME
+
 
 VERSION=$(aws lambda publish-version \
     --function-name $PROJECT_NAME \
@@ -63,11 +70,14 @@ echo published version: $VERSION
 
 echo aws lambda create-alias $1
 
+
 aws lambda create-alias \
     --function-name $PROJECT_NAME \
     --name $1 \
     --function-version $VERSION \
     --region $AWS_REGION
+
+sleep 10
 
 echo aws lambda add-permission
 
