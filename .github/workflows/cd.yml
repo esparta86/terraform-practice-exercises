@@ -1,0 +1,41 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - lambda-prod
+      - lambda-dev
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{env.AWS_REGION}}
+
+    - name: Define variables
+      run: |
+        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+    - name: set permission on our script
+      run: chmod +x aws/lambda-tf-githubaction/publish.sh
+    
+    - name: Publish on prod
+      if: github.ref=='refs/heads/lambda-prod'
+      run: sh aws/lambda-tf-githubaction/publish.sh prod
+
+
+
+    
