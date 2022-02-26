@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 AWS_REGION=us-east-1
 # project name
 PROJECT_NAME=lambda-tf-githubaction
@@ -28,14 +28,13 @@ cd "$dir"
 
 [[ $1 != 'prod' && $1 != 'dev' ]] && { echo 'usage: publish.sh <prod | dev>'; exit 1; } ;
 
-if [[ $1 == 'prod' ]] && [[ $2 == 'account' ]]
-then
+if [[ $1 == 'prod' ]] && [[ $2 == 'account' ]]; then
   getval=$(retrieveAccount)
   echo $getval
 fi
 
-if [[ $1 == 'prod' ]] && [[ $2 == 'apigateway' ]]
-then
+
+if [[ $1 == 'prod' ]] && [[ $2 == 'apigateway' ]]; then
   getval=$(retrieve_ApiGateway)
   echo $getval
 fi
