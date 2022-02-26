@@ -38,7 +38,7 @@ jobs:
       id: account
       if: github.ref=='refs/heads/lambda-prod'
       run: |
-        ACCOUNT="$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)"
+        ACCOUNT=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
         echo "::set-output name=accountid::$ACCOUNT"
       shell: sh
 
@@ -46,7 +46,7 @@ jobs:
       id: gateway
       if: github.ref=='refs/heads/lambda-prod'
       run: |
-        AGID="$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)"
+        AGID=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
         echo "::set-output name=gatewayid::$AGID"
 
     - name: Display in the same job

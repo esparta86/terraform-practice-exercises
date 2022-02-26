@@ -1,4 +1,4 @@
-#!bin/batch
+#!/bin/sh
 AWS_REGION=us-east-1
 # project name
 PROJECT_NAME=lambda-tf-githubaction
