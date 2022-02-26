@@ -10,10 +10,12 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  build:
+  retrieveIDs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-
+    outputs:
+      output1: ${{ steps.account.outputs.accountid }}
+      output2: ${{ steps.gateway.outputs.gatewayid }}
     steps:
     - name: Clone
       uses: actions/checkout@v2
@@ -30,11 +32,22 @@ jobs:
         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
 
     - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish.sh
+      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
     
-    - name: Publish on prod
+    - name: retrieve account ID
+      id: account
       if: github.ref=='refs/heads/lambda-prod'
-      run: sh aws/lambda-tf-githubaction/publish.sh prod
+      run: |
+        echo ::set-output name=accountid::$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
+    - name: retrieve APIGateway ID
+      id: gateway
+      if: github.ref=='refs/heads/lambda-prod'
+      run: |
+        echo ::set-output name=gatewayid::$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
+
+
+
+      
 
 
 
