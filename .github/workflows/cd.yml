@@ -38,7 +38,7 @@ jobs:
       id: account
       if: github.ref=='refs/heads/lambda-prod'
       run: |
-        ACCOUNT=$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
+        ACCOUNT="$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)"
         echo "::set-output name=accountid::$ACCOUNT"
       shell: sh
 
@@ -46,8 +46,12 @@ jobs:
       id: gateway
       if: github.ref=='refs/heads/lambda-prod'
       run: |
-        AGID=$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
+        AGID="$(sh aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)"
         echo "::set-output name=gatewayid::$AGID"
+
+    - name: Display in the same job
+      run: |
+        echo "Output 1 : ${{ steps.account.outputs.accountid }}"
 
   deleteAlias:
     runs-on: ubuntu-latest
@@ -56,7 +60,7 @@ jobs:
     steps:
     - name: print accountID and GatewayId from job previous
       run: |
-        echo ${{needs.retrieveIDs.outputs.output1}} ${{needs.retrieveIDs.outputs.output2}}
+        echo ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
 
 
       
