@@ -52,7 +52,7 @@ jobs:
     - name: Display in the same job
       run: |
         echo "Output 1 : ${{ steps.account.outputs.accountid }}"
-
+        echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
   deleteAlias:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
@@ -60,7 +60,7 @@ jobs:
     steps:
     - name: print accountID and GatewayId from job previous
       run: |
-        echo ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
+        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}
 
 
       
