@@ -60,7 +60,7 @@ jobs:
     steps:
     - name: print accountID and GatewayId from job previous
       run: |
-        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}
+        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
 
 
       
