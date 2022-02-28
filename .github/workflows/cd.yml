@@ -57,7 +57,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: repo
-        path: /aws/lambda-tf-githubaction/
+        path: aws/lambda-tf-githubaction/
   deleteAlias:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
