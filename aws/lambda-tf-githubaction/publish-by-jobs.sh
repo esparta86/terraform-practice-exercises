@@ -78,7 +78,7 @@ if [[ $1 == 'prod' ]] && [[ $2 == 'deleteAlias' ]]; then
 fi
 
 
-if [[ $1 == 'prod' ]] && [[ $2 == 'updateFnLambda']]; then
+if [[ $1 == 'prod' ]] && [[ $2 == 'updateFnLambda' ]]; then
   geteval=$(updateFunctionLambda)
   echo $geteval
 fi
