@@ -67,7 +67,7 @@ jobs:
   updateFnLambda:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    output:
+    outputs:
       output3: ${{ steps.updatefn.outputs.version }}
     needs: deleteAlias
     steps:
