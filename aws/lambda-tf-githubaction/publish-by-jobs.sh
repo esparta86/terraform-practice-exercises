@@ -21,12 +21,45 @@ retrieve_ApiGateway(){
 
 
 
+deleteAlias(){
+  echo aws lambda deleteAlias $1
+  aws lambda delete-alias \
+    --function-name $PROJECT_NAME \
+    --name $1 \
+    --region $AWS_REGION \
+    2>/dev/null
+
+}
+
+
+updateFunctionLambda(){
+  echo zip hello.js
+  cd lambda/
+  ls -l 
+  rm --force hello.zip
+  zip hello.zip hello.js
+  echo aws lambda update-function-code $PROJECT_NAME
+
+  local VERSION=$(aws lambda publish-version \
+    --function-name $PROJECT_NAME \
+    --description $1 \
+    --region $AWS_REGION \
+    --query Version \
+    --output text)
+
+   echo "$VERSION"
+}
+
+
+
+
 dir="$(cd "$(dirname "$0")"; pwd)"
 
 cd "$dir"
 
 
 [[ $1 != 'prod' && $1 != 'dev' ]] && { echo 'usage: publish.sh <prod | dev>'; exit 1; } ;
+
 
 if [[ $1 == 'prod' ]] && [[ $2 == 'account' ]]; then
   getval=$(retrieveAccount)
@@ -40,4 +73,12 @@ if [[ $1 == 'prod' ]] && [[ $2 == 'apigateway' ]]; then
 fi
 
 
+if [[ $1 == 'prod' ]] && [[ $2 == 'deleteAlias' ]]; then
+  deleteAlias
+fi
 
+
+if [[ $1 == 'prod' ]] && [[ $2 == 'updateFnLambda']]; then
+  geteval=$(updateFunctionLambda)
+  echo $geteval
+fi

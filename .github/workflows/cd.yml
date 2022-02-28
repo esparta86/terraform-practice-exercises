@@ -61,6 +61,22 @@ jobs:
     - name: print accountID and GatewayId from job previous
       run: |
         echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
+    - name: deleteAlias
+      run: |
+        ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod deleteAlias
+  updateFnLambda:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+    output:
+      output3: ${{ steps.updatefn.outputs.version }}
+    needs: deleteAlias
+    steps:
+    - name: Update code in Lambda function
+      id: updatefn
+      run: |
+        VERSION=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod updateFnLambda)
+        echo "::set-output name=version::$VERSION
+       
 
 
       
