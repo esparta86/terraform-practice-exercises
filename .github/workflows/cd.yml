@@ -58,6 +58,12 @@ jobs:
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
     needs: retrieveIDs
     steps:
+    - name: ls -ls previous
+      run: ls -ls    
+    - name: Clone
+      uses: actions/checkout@v2
+    - name: ls -ls after clone
+      run: ls -ls      
     - name: print accountID and GatewayId from job previous
       run: |
         echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
@@ -71,6 +77,8 @@ jobs:
       output3: ${{ steps.updatefn.outputs.version }}
     needs: deleteAlias
     steps:
+    - name: ls -ls
+      run: ls -ls
     - name: Update code in Lambda function
       id: updatefn
       run: |
