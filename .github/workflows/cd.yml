@@ -65,8 +65,11 @@ jobs:
     steps:
     - name: ls -ls previous
       run: ls -ls    
-    - name: Clone
-      uses: actions/checkout@v2
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: repo
+        path: aws/lambda-tf-githubaction/
     - name: ls -ls after clone
       run: ls -ls      
     - name: print accountID and GatewayId from job previous
