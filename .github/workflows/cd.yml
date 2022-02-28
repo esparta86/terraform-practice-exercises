@@ -53,6 +53,11 @@ jobs:
       run: |
         echo "Output 1 : ${{ steps.account.outputs.accountid }}"
         echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
+    - name: Upload clone directory
+      uses: actions/upload-artifact@v2
+      with:
+        name: repo
+        path: /aws/lambda-tf-githubaction/
   deleteAlias:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
