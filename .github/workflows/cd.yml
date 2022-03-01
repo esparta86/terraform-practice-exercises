@@ -58,23 +58,22 @@ jobs:
       with:
         name: repo
         path: aws/lambda-tf-githubaction/
+  
   deleteAlias:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
     needs: retrieveIDs
-    steps:
-    - name: ls -ls previous
-      run: ls -ls    
+    steps:    
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
         name: repo
-        path: aws/lambda-tf-githubaction/
-    - name: ls -ls after clone
-      run: ls -ls      
-    - name: print accountID and GatewayId from job previous
-      run: |
-        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
+        path: aws/lambda-tf-githubaction/      
+    # - name: print accountID and GatewayId from job previous
+    #   run: |
+    #     echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
+    - name: set permission on our script
+      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh        
     - name: deleteAlias
       run: |
         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod deleteAlias
@@ -85,8 +84,13 @@ jobs:
       output3: ${{ steps.updatefn.outputs.version }}
     needs: deleteAlias
     steps:
-    - name: ls -ls
-      run: ls -ls
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: repo
+        path: aws/lambda-tf-githubaction/
+    - name: set permission on our script
+      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh  
     - name: Update code in Lambda function
       id: updatefn
       run: |
