@@ -33,12 +33,12 @@ deleteAlias(){
 
 
 updateFunctionLambda(){
-  echo zip hello.js
+  # echo zip hello.js
   cd lambda/
   ls -l 
   rm --force hello.zip
   zip hello.zip hello.js
-  echo aws lambda update-function-code $PROJECT_NAME
+  # echo aws lambda update-function-code $PROJECT_NAME
 
   local VERSION=$(aws lambda publish-version \
     --function-name $PROJECT_NAME \
