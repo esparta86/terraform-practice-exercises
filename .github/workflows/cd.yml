@@ -153,7 +153,7 @@ jobs:
   addPermission:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    needs: createAlias
+    needs: [retrieveIDs, createAlias]
     steps:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
