@@ -118,7 +118,7 @@ jobs:
       id: updatefn
       run: |
         VERSION=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod updateFnLambda)
-        echo "::set-output name=version::$VERSION
+        echo "::set-output name=version::$VERSION"
        
 
 
