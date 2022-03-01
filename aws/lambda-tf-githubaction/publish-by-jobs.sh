@@ -50,6 +50,13 @@ updateFunctionLambda(){
    echo "$VERSION"
 }
 
+testParameter()
+{
+
+  echo "$1"
+
+ 
+}
 
 
 
@@ -79,6 +86,10 @@ fi
 
 
 if [[ $1 == 'prod' ]] && [[ $2 == 'updateFnLambda' ]]; then
-  geteval=$(updateFunctionLambda)
+  geteval=$(updateFunctionLambda $1)
   echo $geteval
 fi
+
+
+
+
