@@ -62,6 +62,19 @@ createAlias(){
       --region $AWS_REGION  
 }
 
+addPermission(){
+  ENVIRONMENT=$1
+  ACCOUNT_ID=$2
+  API_GATEWAY_ID=$3
+  aws lambda add-permission \
+    --function-name "arn:aws:lambda:$AWS_REGION:$ACCOUNT_ID:function:$PROJECT_NAME:$1" \
+    --source-arn "arn:aws:execute-api:$AWS_REGION:$ACCOUNT_ID:$API_GATEWAY_ID/*/GET/hello" \
+    --principal apigateway.amazonaws.com \
+    --statement-id "AllowAPIGatewayInvoke" \
+    --action lambda:InvokeFunction
+
+}
+
 testParameter()
 {
 
@@ -104,8 +117,10 @@ fi
 
 
 if [[ $1 == 'prod' ]] && [[ $2 == 'createAlias' ]]; then
-echo "parametro 3 = $3"
   createAlias $1 $3
 fi
 
+if [[ $1 == 'prod' ]] && [[ $2 == 'createPermission' ]]; then
+  addPermission $1 $3 $4
+fi
 
