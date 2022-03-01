@@ -51,7 +51,7 @@ infra : it has the followings files
 ```
 
   How to use them in other Jobs.
-  
+
   *IMPORTANT
    You should define as prerequisite jobs in the job that want to access to output
    using the needs property
@@ -68,4 +68,36 @@ infra : it has the followings files
 
 ```
   
+- HOW TO SHARE DATA BETWEEN JOBS
+there are 2 ways to share data between jobs in Github Actions
+1. Cache
+2. Artifacts
 
+I decided to use the second.
+I will explain how to use it.
+
+In the following snippet, We are uploading the path aws/lambda-tf-githubaction/
+and all files on that one are going to upload as artifactor
+
+```MiniYAML
+
+    - name: Upload clone directory
+      uses: actions/upload-artifact@v2
+      with:
+        name: repo
+        path: aws/lambda-tf-githubaction/
+
+```
+
+Downloading the artifactor in other job
+
+```MiniYAML
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: repo
+        path: aws/lambda-tf-githubaction/
+
+```
+
+and that's all, the job is going to download it.
