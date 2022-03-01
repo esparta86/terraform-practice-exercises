@@ -172,7 +172,10 @@ jobs:
         name: repo
         path: aws/lambda-tf-githubaction/
     - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh  
+      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+    - name: print accountID and GatewayId from job previous
+      run: |
+        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"        
     - name: Add permission on Lambda function
       run: |
         ACCOUNTID=${{ needs.retrieveIDs.outputs.output1 }}
