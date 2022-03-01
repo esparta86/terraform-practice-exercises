@@ -77,6 +77,7 @@ jobs:
     - name: deleteAlias
       run: |
         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod deleteAlias
+
   updateFnLambda:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
@@ -84,6 +85,17 @@ jobs:
       output3: ${{ steps.updatefn.outputs.version }}
     needs: deleteAlias
     steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{env.AWS_REGION}}
+
+    - name: Define variables
+      run: |
+        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}    
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
