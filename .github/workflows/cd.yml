@@ -49,10 +49,10 @@ jobs:
         AGID=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
         echo "::set-output name=gatewayid::$AGID"
 
-    - name: Display in the same job
-      run: |
-        echo "Output 1 : ${{ steps.account.outputs.accountid }}"
-        echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
+    # - name: Display in the same job
+    #   run: |
+    #     echo "Output 1 : ${{ steps.account.outputs.accountid }}"
+    #     echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
     - name: Upload clone directory
       uses: actions/upload-artifact@v2
       with:
@@ -121,9 +121,9 @@ jobs:
       run: |
         VERSION=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod updateFnLambda)
         echo "::set-output name=version::$VERSION"
-    - name: Display in the same job
-      run: |
-        echo "Version  : ${{ steps.updatefn.outputs.version }}"        
+    # - name: Display in the same job
+    #   run: |
+    #     echo "Version  : ${{ steps.updatefn.outputs.version }}"        
 
   createAlias:
     runs-on: ubuntu-latest
@@ -176,19 +176,9 @@ jobs:
         name: repo
         path: aws/lambda-tf-githubaction/
     - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
-    - name: print accountID and GatewayId from job previous
-      run: |
-        echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"        
+      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh        
     - name: Add permission on Lambda function
       run: |
-        ACCOUNTID=${{ needs.retrieveIDs.outputs.output1 }}
-        APIGATEWAYID=${{ needs.retrieveIDs.outputs.output2 }}
-        echo "${{ needs.retrieveIDs.outputs.output1 }} \n"
-        echo "${{ needs.retrieveIDs.outputs.output2 }} \n"
-        echo $ACCOUNTID
-        echo "\n"
-        echo $APIGATEWAYID
         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod addPermission ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
 
 
