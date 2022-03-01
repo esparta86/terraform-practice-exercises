@@ -50,6 +50,18 @@ updateFunctionLambda(){
    echo "$VERSION"
 }
 
+
+createAlias(){
+  VERSION=$2
+  echo "version $VERSION "
+  echo aws lambda create-alias $1
+  aws lambda create-alias \
+      --function-name $PROJECT_NAME \
+      --name $1 \
+      --function-version $VERSION \
+      --region $AWS_REGION  
+}
+
 testParameter()
 {
 
@@ -91,5 +103,9 @@ if [[ $1 == 'prod' ]] && [[ $2 == 'updateFnLambda' ]]; then
 fi
 
 
+if [[ $1 == 'prod' ]] && [[ $2 == 'createAlias' ]]; then
+echo "parametro 3 = $3"
+  createAlias $1 $3
+fi
 
 
