@@ -37,7 +37,7 @@ updateFunctionLambda(){
   cd lambda/
   
   rm --force hello.zip 2>&1
-  zip hello.zip hello.js 2>&1
+  zip hello.zip hello.js  > /dev/null 2>&1
   # echo aws lambda update-function-code $PROJECT_NAME
 
   local VERSION=$(aws lambda publish-version \
