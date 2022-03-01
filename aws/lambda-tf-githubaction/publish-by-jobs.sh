@@ -81,7 +81,7 @@ fi
 
 
 if [[ $1 == 'prod' ]] && [[ $2 == 'deleteAlias' ]]; then
-  deleteAlias
+  deleteAlias $1
 fi
 
 
