@@ -120,7 +120,7 @@ if [[ $1 == 'prod' ]] && [[ $2 == 'createAlias' ]]; then
   createAlias $1 $3
 fi
 
-if [[ $1 == 'prod' ]] && [[ $2 == 'createPermission' ]]; then
+if [[ $1 == 'prod' ]] && [[ $2 == 'addPermission' ]]; then
   addPermission $1 $3 $4
 fi
 

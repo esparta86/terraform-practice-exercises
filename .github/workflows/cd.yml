@@ -40,7 +40,6 @@ jobs:
       run: |
         ACCOUNT=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
         echo "::set-output name=accountid::$ACCOUNT"
-      shell: sh
 
     - name: retrieve APIGateway ID
       id: gateway
