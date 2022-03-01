@@ -32,3 +32,40 @@ infra : it has the followings files
  lambda: the folder stores the code of nodejs app and the zip file to upload in aws lambda
 
  publish.sh : bash script that is going to be called from github action
+
+
+ --------------  LESSONS LEARNED  ---------
+
+ GITHUB ACTIONS
+ - SHARE VARIABLES
+   You can pass a value from a step in one job in a workflow to a step in another job in the same WORKFLOW
+   BUT you should define the value as a job output
+
+   Defining outputs
+```MiniYAML
+  retrieveIDs:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.ID_STEP.outputs.OUTPUT_ID }}
+
+```
+
+  How to use them in other Jobs.
+  
+  *IMPORTANT
+   You should define as prerequisite jobs in the job that want to access to output
+   using the needs property
+
+```MiniYAML
+
+  addPermission:
+    runs-on: ubuntu-latest
+    needs: [retrieveIDs, createAlias]
+    steps:
+   - name: Add permission on Lambda function
+      run: |
+        ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod addPermission ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
+
+```
+  
+
