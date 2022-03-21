@@ -8,7 +8,7 @@
 
 
 <p align="center">
-  <img src="./img/githubaction-workflow.png" alt="WorkFlow Github" width="738">
+  <img src="./img/githubaction-workflow.png" alt="WorkFlow Github" width="1024">
 </p>
 
 # List of tecnologies used in this POC
