@@ -8,7 +8,7 @@
 
 
 <p align="center">
-  <img src="./aws/lambda-tf-githubaction/img/githubaction-workflow.png" alt="WorkFlow Github" width="738">
+  <img src="./img/githubaction-workflow.png" alt="WorkFlow Github" width="738">
 </p>
 
 # List of tecnologies used in this POC
