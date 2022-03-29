@@ -35,7 +35,7 @@ variable "instance_ami" {
 variable "development_vpc_cidr" {
   description = "cidr for vpc"
   type        = string
-  default     = "10.0.0.0/24"
+  default     = "10.0.0.0/16"
 }
 
 variable "develop_public_subnet_cidr" {
