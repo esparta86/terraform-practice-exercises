@@ -10,6 +10,7 @@ terraform.tfstate.*
 
 *.log
 
+ nodejs-app/node_modules
 
 *.tfvars
 aws/demo-aws-lambda/.terraform/
