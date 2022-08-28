@@ -11,6 +11,9 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'aws/demo-aws-lambda/nodejs-app/'
     strategy:
       matrix:
         node-version: [17.x]
@@ -26,4 +29,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: dir inside nodejs
-      run: ls -ls aws/demo-aws-lambda/nodejs-app/
+      run: ls -ls
