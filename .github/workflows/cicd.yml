@@ -30,6 +30,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
       run: npm ci
-    - name: dir after build
-      run: ls -ls
+    - name: Upload nodejs app with their dependencies
+    - name: Upload app node built
+      use: actions/upload-artifact@v2
+      with:
+        name: appcode
+        path: .
+
+
+
 
