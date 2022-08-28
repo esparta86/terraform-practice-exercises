@@ -48,11 +48,13 @@ jobs:
       with:
         name: appcode
         path: aws/demo-aws-lambda/nodeApp/
-    - name: dir
-      run: ls -ls aws/demo-aws-lambda/
-
-
-
+    - name: Terraform Init
+      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}
+        TF_ACTION_WORKING_DIR: 'aws/demo-aws-lambda/'
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
 
