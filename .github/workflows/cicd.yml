@@ -11,9 +11,17 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x,16.x,17.x]
+
     if: github.ref == 'refs/heads/lambda-tf'
     steps:
     - name: Clone
       uses: actions/checkout@v2
     - name: dir
       run: ls -ls
+    - name: use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
