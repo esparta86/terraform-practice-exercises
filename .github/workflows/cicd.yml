@@ -1,0 +1,17 @@
+name: cd&cd
+
+on:
+  push:
+    branches:
+      - lambda-tf
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/lambda-tf'
+    steps:
+    - name: Clone
+      uses: actions/checkout@v2
