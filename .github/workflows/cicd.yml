@@ -22,8 +22,7 @@ jobs:
     steps:
     - name: Clone
       uses: actions/checkout@v2
-    - name: dir
-      run: ls -ls
+
     - name: use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -31,11 +30,30 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    - name: Upload app node built
+    - name: Upload app node built as artifact
       uses: actions/upload-artifact@v2
       with:
         name: appcode
-        path: .
+        path: aws/demo-aws-lambda/nodejs-app/  # Defining . doesnot work
+  cd:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/lambda-tf'
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: Download app node
+      uses: actions/download-artifact@v2
+      with:
+        name: appcode
+        path: aws/demo-aws-lambda/nodeApp/
+    - name: dir
+      run: ls -ls aws/demo-aws-lambda/
+
+
+
+
+
 
 
 
