@@ -12,8 +12,11 @@ terraform {
 
 provider "aws" {
   profile = "default"
+  version = "~>3.0"
   region  = var.aws_region
 }
+
+
 
 # resource "aws_iam_role" "lambda_role" {
 #   name = "iam_role_lambda_function"
