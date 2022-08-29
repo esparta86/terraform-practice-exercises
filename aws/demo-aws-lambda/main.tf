@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  profile = "default"
+
   region  = var.aws_region
   assume_role {
     role_arn     = "arn:aws:iam::734237051973:role/github-role"
