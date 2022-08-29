@@ -55,6 +55,7 @@ jobs:
     - name: terraform init
       id: init
       run: terraform init
+      working-directory: aws/demo-aws-lambda/
 
 
 
