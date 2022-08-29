@@ -69,7 +69,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: terraform apply
-      id: plan
+      id: apply
       run: terraform apply
       working-directory: aws/demo-aws-lambda/
       env:
