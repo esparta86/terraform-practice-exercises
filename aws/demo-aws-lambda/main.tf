@@ -19,26 +19,26 @@ provider "aws" {
 
 
 
-resource "aws_iam_role" "lambda_role" {
-  name = "iam_role_lambda_function"
+# resource "aws_iam_role" "lambda_role" {
+#   name = "iam_role_lambda_function"
 
-  assume_role_policy = jsonencode({
-    "Version" : "2012-10-17"
-    "Statement" : [
-      {
-        "Action" : "sts:AssumeRole",
-        "Principal" : {
-          "Service" : "lambda.amazonaws.com"
-        },
-        "Effect" : "Allow",
-        "Sid" : ""
-      }
-    ]
-  })
-  tags = {
-    tag-key = "roleLambda"
-  }
-}
+#   assume_role_policy = jsonencode({
+#     "Version" : "2012-10-17"
+#     "Statement" : [
+#       {
+#         "Action" : "sts:AssumeRole",
+#         "Principal" : {
+#           "Service" : "lambda.amazonaws.com"
+#         },
+#         "Effect" : "Allow",
+#         "Sid" : ""
+#       }
+#     ]
+#   })
+#   tags = {
+#     tag-key = "roleLambda"
+#   }
+# }
 
 # resource "aws_iam_policy" "lambda_logging" {
 #   name        = "iam_policy_lamba_logging_function"
