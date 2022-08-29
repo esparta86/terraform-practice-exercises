@@ -56,11 +56,17 @@ jobs:
       id: init
       run: terraform init
       working-directory: aws/demo-aws-lambda/
+      env:
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: terraform plan
       id: plan
       run: terraform plan
       working-directory: aws/demo-aws-lambda/
+      env:
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
 
