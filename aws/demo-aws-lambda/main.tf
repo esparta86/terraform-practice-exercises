@@ -14,6 +14,9 @@ provider "aws" {
   profile = "default"
   version = "~>3.0"
   region  = var.aws_region
+  assume_role {
+    role_arn     = "arn:aws:iam::734237051973:role/github-role"
+  }
 }
 
 
