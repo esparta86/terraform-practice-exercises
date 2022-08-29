@@ -1,12 +1,16 @@
 
 terraform {
 
-  # required_version = ">= 0.14.9"
+   required_providers {
+     aws = {
+      sousource = "hashicorp/aws"
+      verversion = "~>4.0"
+     }
+   }
 }
 
 provider "aws" {
   profile = "default"
-  version = "~>3.0"
   region  = var.aws_region
   assume_role {
     role_arn     = "arn:aws:iam::734237051973:role/github-role"
