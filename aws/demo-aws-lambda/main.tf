@@ -28,6 +28,87 @@ provider "aws" {
 }
 
 
+resource "aws_s3_bucket" "lambda_bucket" {
+  bucket = "lambda-bucket-colocho2022"
+
+  acl           = "private"
+  force_destroy = true
+}
+
+
+
+data "archive_file" "lambda_nodeapp_archive" {
+  type = "zip"
+  source_dir = "${path.cwd}/nodeApp"
+  output_path = "${path.cwd}/nodeApp.zip"
+}
+
+
+resource "aws_s3_object" "lambda_nodeapp_object" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+
+  key = "nodeApp.zip"
+  source = data.archive_file.lambda_nodeapp_archive.output_path
+
+  etag =filemd5(data.archive_file.lambda_nodeapp_archive.output_path)
+
+  depends_on = [
+    aws_s3_bucket.lambda_bucket
+  ]
+}
+
+
+resource "aws_lambda_function" "nodeapp" {
+    function_name = "nodeapp"
+    s3_bucket = aws_s3_bucket.lambda_bucket.id
+    s3_key = aws_s3_object.lambda_nodeapp_object.key
+
+    runtime = "nodejs16.x"
+
+    handler = "/"
+
+    source_code_hash = data.archive_file.lambda_nodeapp_archive.output_base64sha256
+
+    role = aws_iam_role.lambda_exec.arn
+}
+
+
+resource "aws_cloudwatch_log_group" "nodeapp" {
+  name = "/aws/lambda/${aws_lambda_function.nodeapp.function_name}"
+
+  retention_in_days = 30
+
+  depends_on = [
+    aws_lambda_function.nodeapp
+  ]
+}
+
+resource "aws_iam_role" "lambda_exec" {
+  name = "serverless_lambda"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Sid    = ""
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_policy" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+
+
+
+
 
 # resource "aws_iam_role" "lambda_role" {
 #   name = "iam_role_lambda_function"
