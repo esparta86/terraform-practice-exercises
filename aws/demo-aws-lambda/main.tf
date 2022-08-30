@@ -7,6 +7,16 @@ terraform {
       version = "~>4.0"
      }
    }
+
+  backend "s3" {
+    bucket = "colocho86-tf-states"
+    key = "demo-aws-lambda/s3/terraform.tfstate"
+    region = "us-east-1"
+
+    dynamodb_table = "terraform-locks"
+    encrypt = true
+  }
+
 }
 
 provider "aws" {
