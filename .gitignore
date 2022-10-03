@@ -1,6 +1,8 @@
 **/aws/demo-terraform-aws-instance/.terraform/*
 aws/demo-terraform-aws-instance/.terraform/
 demo-terraform-aws-instance/.terraform/*
+
+aws/demo-aws-lambda/nodejs-app/node_modules/*
 *.tfstate
 *.tfstate.*git st
 
@@ -10,6 +12,7 @@ terraform.tfstate.*
 
 *.log
 
+nodejs-app/node_modules/*
 
 *.tfvars
 aws/demo-aws-lambda/.terraform/
