@@ -4,12 +4,12 @@ terraform {
       source  = "hashicorp/aws"
       version = "> 3.74"
     }
+    
+    random  = {}
   }
 
-  required_version = ">= 0.14.9"
+  required_version = ">= 1.3.1"
 }
-
-
 
 
 # Creating the first NGINX server on public subnet
@@ -40,9 +40,6 @@ terraform {
 
 #   key_name = "ubuntu"
 # }
-
-
-
 
 
 resource "aws_instance" "app_server_private" {
