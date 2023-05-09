@@ -13,6 +13,7 @@
                 ls -la
                 ls ./.github/workflows/
             - name: Install dependencies
-              uses: ./.github/workflows/template-a.yml
+              uses: "./.github/template/deploy"
               with:
-                foo: bar
+                version: v1.0.0
+                namespace: "stage"
