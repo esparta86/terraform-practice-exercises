@@ -8,6 +8,9 @@
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
+            - name: ls
+              run: |
+                ls -l
             - name: Install dependencies
               uses: ./.github/workflows/template-a.yml
               with:
