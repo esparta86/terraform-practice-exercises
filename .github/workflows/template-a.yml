@@ -1,0 +1,12 @@
+
+  name: Dependency Instalation Template
+  on: push
+
+  jobs:
+    install-dependencies:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout code
+          uses: actions/checkout@v2
+        - name: install dependencies
+          uses: npm install 

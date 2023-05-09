@@ -1,185 +1,185 @@
-name: cd
+# name: cd
 
-on:
-  push:
-    branches:
-      - lambda-prod
-      - lambda-dev
+# on:
+#   push:
+#     branches:
+#       - lambda-prod
+#       - lambda-dev
 
-env:
-  AWS_REGION: us-east-1
+# env:
+#   AWS_REGION: us-east-1
 
-jobs:
-  retrieveIDs:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    outputs:
-      output1: ${{ steps.account.outputs.accountid }}
-      output2: ${{ steps.gateway.outputs.gatewayid }}
-    steps:
-    - name: Clone
-      uses: actions/checkout@v2
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-        mask-aws-account-id: 'no'
+# jobs:
+#   retrieveIDs:
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+#     outputs:
+#       output1: ${{ steps.account.outputs.accountid }}
+#       output2: ${{ steps.gateway.outputs.gatewayid }}
+#     steps:
+#     - name: Clone
+#       uses: actions/checkout@v2
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{env.AWS_REGION}}
+#         mask-aws-account-id: 'no'
 
-    - name: Define variables
-      run: |
-        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
-        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     - name: Define variables
+#       run: |
+#         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+#         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
 
-    - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+#     - name: set permission on our script
+#       run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
     
-    - name: retrieve account ID
-      id: account
-      if: github.ref=='refs/heads/lambda-prod'
-      run: |
-        ACCOUNT=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
-        echo "::set-output name=accountid::$ACCOUNT"
+#     - name: retrieve account ID
+#       id: account
+#       if: github.ref=='refs/heads/lambda-prod'
+#       run: |
+#         ACCOUNT=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod account)
+#         echo "::set-output name=accountid::$ACCOUNT"
 
-    - name: retrieve APIGateway ID
-      id: gateway
-      if: github.ref=='refs/heads/lambda-prod'
-      run: |
-        AGID=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
-        echo "::set-output name=gatewayid::$AGID"
+#     - name: retrieve APIGateway ID
+#       id: gateway
+#       if: github.ref=='refs/heads/lambda-prod'
+#       run: |
+#         AGID=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod apigateway)
+#         echo "::set-output name=gatewayid::$AGID"
 
-    # - name: Display in the same job
-    #   run: |
-    #     echo "Output 1 : ${{ steps.account.outputs.accountid }}"
-    #     echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
-    - name: Upload clone directory
-      uses: actions/upload-artifact@v2
-      with:
-        name: repo
-        path: aws/lambda-tf-githubaction/
+#     # - name: Display in the same job
+#     #   run: |
+#     #     echo "Output 1 : ${{ steps.account.outputs.accountid }}"
+#     #     echo "Output 2 : ${{ steps.gateway.outputs.gatewayid }}"
+#     - name: Upload clone directory
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: repo
+#         path: aws/lambda-tf-githubaction/
   
-  deleteAlias:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    needs: retrieveIDs
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-        mask-aws-account-id: 'no'
+#   deleteAlias:
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+#     needs: retrieveIDs
+#     steps:
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{env.AWS_REGION}}
+#         mask-aws-account-id: 'no'
 
-    - name: Define variables
-      run: |
-        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
-        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}       
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: repo
-        path: aws/lambda-tf-githubaction/      
-    # - name: print accountID and GatewayId from job previous
-    #   run: |
-    #     echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
-    - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh        
-    - name: deleteAlias
-      run: |
-        ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod deleteAlias
+#     - name: Define variables
+#       run: |
+#         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+#         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     - name: Download artifacts
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: repo
+#         path: aws/lambda-tf-githubaction/
+#     # - name: print accountID and GatewayId from job previous
+#     #   run: |
+#     #     echo "output1: ${{ needs.retrieveIDs.outputs.output1 }} | output2: ${{ needs.retrieveIDs.outputs.output2 }}"
+#     - name: set permission on our script
+#       run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+#     - name: deleteAlias
+#       run: |
+#         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod deleteAlias
 
-  updateFnLambda:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    outputs:
-      output3: ${{ steps.updatefn.outputs.version }}
-    needs: deleteAlias
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-        mask-aws-account-id: 'no'
+#   updateFnLambda:
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+#     outputs:
+#       output3: ${{ steps.updatefn.outputs.version }}
+#     needs: deleteAlias
+#     steps:
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{env.AWS_REGION}}
+#         mask-aws-account-id: 'no'
 
-    - name: Define variables
-      run: |
-        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
-        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}    
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: repo
-        path: aws/lambda-tf-githubaction/
-    - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh  
-    - name: Update code in Lambda function
-      id: updatefn
-      run: |
-        VERSION=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod updateFnLambda)
-        echo "::set-output name=version::$VERSION"
-    # - name: Display in the same job
-    #   run: |
-    #     echo "Version  : ${{ steps.updatefn.outputs.version }}"        
+#     - name: Define variables
+#       run: |
+#         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+#         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     - name: Download artifacts
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: repo
+#         path: aws/lambda-tf-githubaction/
+#     - name: set permission on our script
+#       run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+#     - name: Update code in Lambda function
+#       id: updatefn
+#       run: |
+#         VERSION=$(./aws/lambda-tf-githubaction/publish-by-jobs.sh prod updateFnLambda)
+#         echo "::set-output name=version::$VERSION"
+#     # - name: Display in the same job
+#     #   run: |
+#     #     echo "Version  : ${{ steps.updatefn.outputs.version }}"
 
-  createAlias:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    needs: updateFnLambda
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-        mask-aws-account-id: 'no'
+#   createAlias:
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+#     needs: updateFnLambda
+#     steps:
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{env.AWS_REGION}}
+#         mask-aws-account-id: 'no'
 
-    - name: Define variables
-      run: |
-        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
-        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}    
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: repo
-        path: aws/lambda-tf-githubaction/
-    - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh  
-    - name: Create Alias
-      run: |
-        ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod createAlias ${{ needs.updateFnLambda.outputs.output3 }}
+#     - name: Define variables
+#       run: |
+#         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+#         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     - name: Download artifacts
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: repo
+#         path: aws/lambda-tf-githubaction/
+#     - name: set permission on our script
+#       run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+#     - name: Create Alias
+#       run: |
+#         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod createAlias ${{ needs.updateFnLambda.outputs.output3 }}
 
-  addPermission:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
-    needs: [retrieveIDs, createAlias]
-    steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{env.AWS_REGION}}
-        mask-aws-account-id: 'no'
+#   addPermission:
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/lambda-prod' || github.ref == 'refs/heads/lambda-dev'
+#     needs: [retrieveIDs, createAlias]
+#     steps:
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{env.AWS_REGION}}
+#         mask-aws-account-id: 'no'
 
-    - name: Define variables
-      run: |
-        export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
-        export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}    
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: repo
-        path: aws/lambda-tf-githubaction/
-    - name: set permission on our script
-      run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh        
-    - name: Add permission on Lambda function
-      run: |
-        ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod addPermission ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
+#     - name: Define variables
+#       run: |
+#         export AWS_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY_ID}}
+#         export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
+#     - name: Download artifacts
+#       uses: actions/download-artifact@v2
+#       with:
+#         name: repo
+#         path: aws/lambda-tf-githubaction/
+#     - name: set permission on our script
+#       run: chmod +x aws/lambda-tf-githubaction/publish-by-jobs.sh
+#     - name: Add permission on Lambda function
+#       run: |
+#         ./aws/lambda-tf-githubaction/publish-by-jobs.sh prod addPermission ${{ needs.retrieveIDs.outputs.output1 }} ${{ needs.retrieveIDs.outputs.output2 }}
 
 
       
