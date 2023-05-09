@@ -9,4 +9,4 @@
         - name: checkout code
           uses: actions/checkout@v2
         - name: install dependencies
-          uses: npm install 
+          run: "installing dependencies"
