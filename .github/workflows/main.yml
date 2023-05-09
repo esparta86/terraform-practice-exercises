@@ -17,3 +17,5 @@
               with:
                 version: v1.0.0
                 namespace: "stage"
+    call-workflow-2-in-local-repo:
+      uses:  ./.github/template/reusable/workflow-B.yml
