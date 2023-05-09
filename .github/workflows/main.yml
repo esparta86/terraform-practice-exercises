@@ -10,8 +10,8 @@
               uses: actions/checkout@v2
             - name: ls
               run: |
-                ls -l
+                ls -la
             - name: Install dependencies
               uses: ./.github/workflows/template-a.yml
               with:
-                foo: bar 
+                foo: bar
