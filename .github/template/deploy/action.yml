@@ -12,7 +12,6 @@ runs:
   # Defining the action steps(Just one step to be simple)
   steps:
   - name: deploy stack
-    uses: somelibrary/deploy@master
-    with:
-      version: ${{ inputs.version }}
-      namespace: ${{ inputs.namespace}}
+    run: |
+      echo "version: ${{ inputs.version }}"
+      echo "namespace: ${{ inputs.namespace}}"
