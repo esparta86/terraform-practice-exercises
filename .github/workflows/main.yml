@@ -19,3 +19,5 @@
                 namespace: "stage"
     call-workflow-2-in-local-repo:
       uses:  ./.github/workflows/workflow-B.yml
+      with:
+        config-path: "config-path"
