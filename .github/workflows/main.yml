@@ -9,6 +9,6 @@
             - name: Checkout code
               uses: actions/checkout@v2
             - name: Install dependencies
-              uses: ./.github/workflows/my-template.yml
+              uses: ./.github/workflows/template-a.yml
               with:
                 foo: bar 
