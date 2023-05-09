@@ -11,6 +11,7 @@
             - name: ls
               run: |
                 ls -la
+                ls ./.github/workflows/
             - name: Install dependencies
               uses: ./.github/workflows/template-a.yml
               with:
