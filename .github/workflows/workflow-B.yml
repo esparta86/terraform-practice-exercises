@@ -20,5 +20,4 @@ jobs:
       uses: google-github-actions/auth@v1
       with:
         project_id: esparta86project
-        # project_id: ${{ inputs.project_id }}
         credentials_json: ${{ secrets.GCP_SA_KEY }}
