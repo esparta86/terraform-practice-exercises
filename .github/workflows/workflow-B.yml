@@ -10,6 +10,7 @@ on:
 
 jobs:
   triage:
+    environment: stage
     runs-on: ubuntu-latest
     steps:
     - name: test title
