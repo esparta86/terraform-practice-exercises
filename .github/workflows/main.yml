@@ -24,7 +24,7 @@
               uses: trstringer/manual-approval@v1
               id: manual_approval
 
-    call-workflow-2-in-local-repo:
-      uses:  ./.github/workflows/workflow-B.yml
-      with:
-        config-path: "config-path"
+    # call-workflow-2-in-local-repo:
+    #   uses:  ./.github/workflows/workflow-B.yml
+    #   with:
+    #     config-path: "config-path"
