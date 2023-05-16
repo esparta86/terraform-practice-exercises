@@ -20,6 +20,10 @@
               with:
                 version: v1.0.0
                 namespace: "stage"
+            - name: Wait for Approval
+              uses: trstringer/manual-approval@v1
+              id: manual_approval
+
     call-workflow-2-in-local-repo:
       uses:  ./.github/workflows/workflow-B.yml
       with:
