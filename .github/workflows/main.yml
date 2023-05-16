@@ -20,6 +20,14 @@
               with:
                 version: v1.0.0
                 namespace: "stage"
+
+            - name: Request Review
+              uses: octokit/request-action@v2.x
+              with:
+                route: POST /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews
+                reviewers: username1, username2
+                permission: write
+
             - name: Wait for Approval
               uses: trstringer/manual-approval@v1
               id: manual_approval
