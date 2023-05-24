@@ -5,6 +5,53 @@
       branches:
         - testing_actions
 
+    workflow_dispatch:
+      inputs:
+        deploy_infra:
+          description: 'Run Terraform?'
+          required: true
+          type: boolean
+          default: false
+        deploy_backend:
+          description: 'Deploy backend?'
+          type: boolean
+          default: false
+        deploy_public_api:
+          description: 'Deploy Public-api?'
+          type: boolean
+          default: false
+        deploy_functions:
+          description: 'Deploy Cloud Functions?'
+          required: true
+          default: false
+        deploy_web:
+          description: 'Deploy Web?'
+          type: boolean
+          default: false
+        build_android:
+          description: 'Build Android?'
+          type: boolean
+          default: false
+        build_ios:
+          description: 'Build iOS?'
+          type: boolean
+          default: false
+        build_live_deploy:
+          description: 'Do Live Deploy?'
+          type: boolean
+          default: false
+        skip_build_backend:
+          description: 'Skip Backend Builds/Tests?'
+          type: boolean
+          default: false
+        skip_build_nursa_api:
+          description: 'Skip Nursa-api Builds/Tests?'
+          type: boolean
+          default: false
+        skip_build_nursa_api_s:
+          description: 'Skip Nursa-api Builds/Tests?'
+          type: boolean
+          default: false
   jobs:
     build:
         runs-on: ubuntu-latest
@@ -21,16 +68,16 @@
                 version: v1.0.0
                 namespace: "stage"
 
-            - name: Request Review
-              uses: octokit/request-action@v2.x
-              with:
-                route: POST /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews
-                reviewers: username1, username2
-                permission: write
+            # - name: Request Review
+            #   uses: octokit/request-action@v2.x
+            #   with:
+            #     route: POST /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews
+            #     reviewers: username1, username2
+            #     permission: write
 
-            - name: Wait for Approval
-              uses: trstringer/manual-approval@v1
-              id: manual_approval
+            # - name: Wait for Approval
+            #   uses: trstringer/manual-approval@v1
+            #   id: manual_approval
 
     # call-workflow-2-in-local-repo:
     #   uses:  ./.github/workflows/workflow-B.yml
