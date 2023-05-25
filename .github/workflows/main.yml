@@ -12,10 +12,15 @@
           type: boolean
           default: false
 
+        deploy:
+          description: 'Run 2 ?'
+          type: boolean
+          default: false
+
   jobs:
     build:
         runs-on: ubuntu-latest
-        if: ${{ github.event.inputs.deploy_infra != 'false' }}
+        if: ${{ github.event.inputs.deploy_infra != 'false'  && github.event.inputs.deploy != 'false' }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
