@@ -8,53 +8,14 @@
     workflow_dispatch:
       inputs:
         deploy_infra:
-          description: 'Run Terraform?'
-          required: true
+          description: 'Run ?'
           type: boolean
           default: false
-        deploy_backend:
-          description: 'Deploy backend?'
-          type: boolean
-          default: false
-        deploy_public_api:
-          description: 'Deploy Public-api?'
-          type: boolean
-          default: false
-        deploy_functions:
-          description: 'Deploy Cloud Functions?'
-          required: true
-          default: false
-        deploy_web:
-          description: 'Deploy Web?'
-          type: boolean
-          default: false
-        build_android:
-          description: 'Build Android?'
-          type: boolean
-          default: false
-        build_ios:
-          description: 'Build iOS?'
-          type: boolean
-          default: false
-        build_live_deploy:
-          description: 'Do Live Deploy?'
-          type: boolean
-          default: false
-        skip_build_backend:
-          description: 'Skip Backend Builds/Tests?'
-          type: boolean
-          default: false
-        skip_build_nursa_api:
-          description: 'Skip Nursa-api Builds/Tests?'
-          type: boolean
-          default: false
-        skip_build_nursa_api_s:
-          description: 'Skip Nursa-api Builds/Tests?'
-          type: boolean
-          default: false
+
   jobs:
     build:
         runs-on: ubuntu-latest
+        if: ${{ github.event.inputs.deploy_infra == true }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
