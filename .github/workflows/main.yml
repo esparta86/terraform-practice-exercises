@@ -15,7 +15,7 @@
   jobs:
     build:
         runs-on: ubuntu-latest
-        if: ${{ github.event.inputs.deploy_infra == true }}
+        if: ${{ github.event.inputs.deploy_infra }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
