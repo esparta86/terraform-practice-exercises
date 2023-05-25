@@ -1,9 +1,9 @@
 
   name: Main Workflow
   on:
-    push:
-      branches:
-        - testing_actions
+    # push:
+    #   branches:
+    #     - testing_actions
 
     workflow_dispatch:
       inputs:
