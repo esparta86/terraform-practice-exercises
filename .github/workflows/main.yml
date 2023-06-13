@@ -14,9 +14,9 @@
           type: boolean
           default: false
 
-        selectedOptions:
-          description: 'Select multiple options (comma-separated)'
-          required: true
+        # selectedOptions:
+        #   description: 'Select multiple options (comma-separated)'
+        #   required: true
 
   jobs:
 
