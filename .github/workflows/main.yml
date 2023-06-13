@@ -20,19 +20,19 @@
 
   jobs:
 
-    myJob:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Parse selected options
-          run: |
-            # Parse the comma-separated string into an array
-            IFS=',' read -ra OPTIONS <<< "${{ github.event.inputs.selectedOptions }}"
+    # myJob:
+    #   runs-on: ubuntu-latest
+    #   steps:
+    #     - name: Parse selected options
+    #       run: |
+    #         # Parse the comma-separated string into an array
+    #         IFS=',' read -ra OPTIONS <<< "${{ github.event.inputs.selectedOptions }}"
 
-            # Loop through the array of options
-            for option in "${OPTIONS[@]}"; do
-              echo "Selected option: $option"
-              # Perform actions based on the selected option
-            done
+    #         # Loop through the array of options
+    #         for option in "${OPTIONS[@]}"; do
+    #           echo "Selected option: $option"
+    #           # Perform actions based on the selected option
+    #         done
     build:
         runs-on: ubuntu-latest
         if: ${{ github.event.inputs.deploy_infra != 'false'  && github.event.inputs.deploy != 'false' }}
