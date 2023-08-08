@@ -3,13 +3,13 @@
 
   on:
     push:
-        branches:
-            - testing_actions
+      branches:
+        - testing_actions
 
- jobs:
+  jobs:
     build_test:
-        runs-on: testing_actions_arc
+      runs-on: testing_actions_arc
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
