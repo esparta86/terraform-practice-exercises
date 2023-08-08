@@ -1,0 +1,15 @@
+
+  name: action runner controller test
+
+  on:
+    push:
+        branches:
+            - testing_actions
+
+ jobs:
+    build_test:
+        runs-on: testing_actions_arc
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2

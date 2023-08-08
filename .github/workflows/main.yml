@@ -1,66 +1,66 @@
 
-  name: Main Workflow
-  on:
+  # name: Main Workflow
+  # on:
 
-    workflow_dispatch:
-      inputs:
-        deploy_infra:
-          description: 'Run ?'
-          type: boolean
-          default: false
+  #   workflow_dispatch:
+  #     inputs:
+  #       deploy_infra:
+  #         description: 'Run ?'
+  #         type: boolean
+  #         default: false
 
-        deploy:
-          description: 'Run 2 ?'
-          type: boolean
-          default: false
+  #       deploy:
+  #         description: 'Run 2 ?'
+  #         type: boolean
+  #         default: false
 
-        # selectedOptions:
-        #   description: 'Select multiple options (comma-separated)'
-        #   required: true
+  #       # selectedOptions:
+  #       #   description: 'Select multiple options (comma-separated)'
+  #       #   required: true
 
-  jobs:
+  # jobs:
 
-    # myJob:
-    #   runs-on: ubuntu-latest
-    #   steps:
-    #     - name: Parse selected options
-    #       run: |
-    #         # Parse the comma-separated string into an array
-    #         IFS=',' read -ra OPTIONS <<< "${{ github.event.inputs.selectedOptions }}"
+  #   # myJob:
+  #   #   runs-on: ubuntu-latest
+  #   #   steps:
+  #   #     - name: Parse selected options
+  #   #       run: |
+  #   #         # Parse the comma-separated string into an array
+  #   #         IFS=',' read -ra OPTIONS <<< "${{ github.event.inputs.selectedOptions }}"
 
-    #         # Loop through the array of options
-    #         for option in "${OPTIONS[@]}"; do
-    #           echo "Selected option: $option"
-    #           # Perform actions based on the selected option
-    #         done
-    build:
-        runs-on: ubuntu-latest
-        if: ${{ github.event.inputs.deploy_infra != 'false'  && github.event.inputs.deploy != 'false' }}
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-            - name: ls
-              run: |
-                ls -la
-                ls ./.github/workflows/
-            - name: Install dependencies
-              uses: "./.github/template/deploy"
-              with:
-                version: v1.0.0
-                namespace: "stage"
+  #   #         # Loop through the array of options
+  #   #         for option in "${OPTIONS[@]}"; do
+  #   #           echo "Selected option: $option"
+  #   #           # Perform actions based on the selected option
+  #   #         done
+  #   build:
+  #       runs-on: ubuntu-latest
+  #       if: ${{ github.event.inputs.deploy_infra != 'false'  && github.event.inputs.deploy != 'false' }}
+  #       steps:
+  #           - name: Checkout code
+  #             uses: actions/checkout@v2
+  #           - name: ls
+  #             run: |
+  #               ls -la
+  #               ls ./.github/workflows/
+  #           - name: Install dependencies
+  #             uses: "./.github/template/deploy"
+  #             with:
+  #               version: v1.0.0
+  #               namespace: "stage"
 
-            # - name: Request Review
-            #   uses: octokit/request-action@v2.x
-            #   with:
-            #     route: POST /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews
-            #     reviewers: username1, username2
-            #     permission: write
+  #           # - name: Request Review
+  #           #   uses: octokit/request-action@v2.x
+  #           #   with:
+  #           #     route: POST /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews
+  #           #     reviewers: username1, username2
+  #           #     permission: write
 
-            # - name: Wait for Approval
-            #   uses: trstringer/manual-approval@v1
-            #   id: manual_approval
+  #           # - name: Wait for Approval
+  #           #   uses: trstringer/manual-approval@v1
+  #           #   id: manual_approval
 
-    # call-workflow-2-in-local-repo:
-    #   uses:  ./.github/workflows/workflow-B.yml
-    #   with:
-    #     config-path: "config-path"
+  #   # call-workflow-2-in-local-repo:
+  #   #   uses:  ./.github/workflows/workflow-B.yml
+  #   #   with:
+  #   #     config-path: "config-path"
