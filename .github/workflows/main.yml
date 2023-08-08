@@ -9,7 +9,7 @@
 
   jobs:
     build_test:
-      runs-on: testing_actions_arc
+      runs-on: self-hosted
 
       steps:
         - name: Checkout code
